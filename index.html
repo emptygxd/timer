@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="root">
+      <img
+        onclick="toggleTheme()"
+        id="theme"
+        alt="sun"
+        src="./assets/themes/sun.svg"
+      />
+      <main>
+        <section class="content">
+          <div class="timer">
+            <h1 id="minutes">0</h1>
+            <h1>:</h1>
+            <h1 id="seconds">10</h1>
+          </div>
+          <div class="controls">
+            <img title="Старт" class="play" id="play" alt="play" />
+            <img
+              title="Новый таймер"
+              id="addTimer"
+              class="addTimer"
+              src="./assets/controls/timer.svg"
+              alt="timer"
+            />
+            <img
+              id="mute"
+              onclick="toggleVolume()"
+              src="./assets/controls/speaker-none.svg"
+              alt="speaker"
+            />
+          </div>
+        </section>
+      </main>
+      <audio src="./assets/sounds/timerOut.mp3"></audio>
+    </div>
+  </body>
+  <script src="./scripts/themeChanger.js"></script>
+  <script src="./scripts/timer.js"></script>
+  <script src="./scripts/mute.js"></script>
+  <script src="./scripts/newTimer.js"></script>
+</html>
