@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles/main.css" />
@@ -23,18 +23,25 @@
       <main>
         <section class="content">
           <div class="timer">
-            <h1 id="minutes">0</h1>
+            <h1 id="minutes">00</h1>
             <h1>:</h1>
-            <h1 id="seconds">10</h1>
+            <h1 id="seconds">50</h1>
           </div>
           <div class="controls">
             <img title="Старт" class="play" id="play" alt="play" />
+            <img
+              title="Сбросить"
+              id="reset"
+              class="reset"
+              src="./assets/controls/stop.svg"
+              alt="reset"
+            />
             <img
               title="Новый таймер"
               id="addTimer"
               class="addTimer"
               src="./assets/controls/timer.svg"
-              alt="timer"
+              alt="add timer"
             />
             <img
               id="mute"
@@ -47,7 +54,21 @@
       </main>
       <audio src="./assets/sounds/timerOut.mp3"></audio>
     </div>
+
+    <div id="popup" class="popup">
+      <div class="popup__body">
+        <div class="popup__content">
+          <span id="close">X</span>
+          <p>
+            Введите время в формате '23:34'. Числа должны быть не меньше 0 и не
+            больше 59.
+          </p>
+          <input type="text" name="newTime" id="newTime" />
+          <p id="error">Введенное значение не соответствует требованиям.</p>
+          <button id="popup__button">Сохранить</button>
+        </div>
+      </div>
+    </div>
   </body>
-  <script src="./scripts/timer.js"></script>
   <script type="module" src="./scripts/index.js"></script>
 </html>

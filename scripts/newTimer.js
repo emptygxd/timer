@@ -1,78 +1,80 @@
 export default function createNewTimerManager() {
-  const addTimer = document.getElementById("addTimer");
+  const popup = document.getElementById("popup");
 
-  let defaultMinutes;
-  let defaultSeconds;
+  const addTimerButton = document.getElementById("addTimer");
+  const resetButton = document.getElementById("reset");
+  const setNewTimerButton = document.getElementById("popup__button");
+  const popupCloseButton = document.getElementById("close");
 
-  function isNumber(num) {
-    if (typeof num === "number" && !isNaN(num) && num >= 0 && num < 60) {
-      return num;
+  const newTimer = document.getElementById("newTime");
+  const error = document.getElementById("error");
+
+  const minutesHtml = document.getElementById("minutes");
+  const secondsHtml = document.getElementById("seconds");
+
+  let defaultMinutes = 0;
+  let defaultSeconds = 50;
+
+  function validateNewTimer(value) {
+    const regex = /^(?=.*:)\d+:\d+$/;
+    return regex.test(value);
+  }
+
+  function getNewTimer() {
+    const newTimerValue = newTimer.value;
+    const newTime = newTimerValue.split(":");
+
+    if (validateNewTimer(newTimerValue) && newTime[0] < 60 && newTime[1] < 60) {
+      error.classList.remove("show");
+      newTimer.value = "";
+      closePopup();
+
+      [defaultMinutes, defaultSeconds] = newTime;
+      setTimerOnLoad(defaultMinutes, defaultSeconds);
+
     } else {
-      num = Number(
-        prompt("Это не число или оно меньше 0/больше 60. Попробуйте ещё раз.")
-      );
-      notNumber = isNumber(num);
-      return notNumber;
+      error.classList.add("show");
     }
   }
 
-  function setTimerOnLoad() {
-    minutesHtml.innerHTML = minutes;
-    if (seconds === 0) {
-      secondsHtml.innerHTML = "0" + seconds;
-    } else {
-      secondsHtml.innerHTML = seconds;
-    }
+  function resetTimer() {
+    setTimerOnLoad(defaultMinutes, defaultSeconds);
   }
 
-  function toDefault() {
-    minutesHtml.innerHTML = defaultMinutes;
-    if (seconds === 0) {
-      secondsHtml.innerHTML = "0" + defaultSeconds;
+  function setTimerOnLoad(min, sec) {
+    if (sec < 10) {
+      secondsHtml.innerHTML = "0" + sec;
     } else {
-      secondsHtml.innerHTML = defaultSeconds;
+      secondsHtml.innerHTML = sec;
     }
 
-    minutes = defaultMinutes;
-    seconds = defaultSeconds;
+    if (min < 10) {
+      minutesHtml.innerHTML = "0" + min;
+    } else {
+      minutesHtml.innerHTML = min;
+    }
 
     if (play.classList.contains("pause")) {
       play.classList.remove("pause");
       play.classList.add("play");
     }
+  }
 
-    clearInterval(interval);
-    interval = setInterval(() => {
-      if (play.classList.contains("pause")) {
-        playTimer();
+  function closePopup() {
+    popup.classList.remove("show");
+  }
+
+  function openPopup() {
+    popup.classList.add("show");
+    popup.addEventListener("click", (e) => {
+      if (!e.target.closest(".popup__content")) {
+        closePopup();
       }
-    }, 1000);
-
-    addTimer.classList.remove("reset");
-    addTimer.src = "./assets/controls/timer.svg";
-    addTimer.title = "Новый таймер";
+    });
   }
 
-  function setNewTimer() {
-    if (!addTimer.classList.contains("reset")) {
-      addTimer.classList.add("reset");
-      addTimer.src = "./assets/controls/stop.svg";
-      addTimer.title = "Сброс";
-
-      minutes = Number(prompt("Сколько минут?"));
-      minutes = isNumber(minutes);
-      defaultMinutes = minutes;
-
-      seconds = Number(prompt("Сколько секунд?"));
-      seconds = isNumber(seconds);
-      defaultSeconds = seconds;
-
-      setTimerOnLoad();
-    } else {
-      toDefault();
-    }
-  }
-
-  addTimer.addEventListener("click", setNewTimer);
-  window.addEventListener("load", setTimerOnLoad);
+  addTimerButton.addEventListener("click", openPopup);
+  popupCloseButton.addEventListener("click", closePopup);
+  setNewTimerButton.addEventListener("click", getNewTimer);
+  resetButton.addEventListener("click", resetTimer);
 }
